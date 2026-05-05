@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculadora Retrô</title>
+    <style>
+        :root {
+            --bg-color: #2c3e50;
+            --calc-body: #d1d1d1;
+            --screen-bg: #899d78; /* Verde LCD antigo */
+            --screen-text: #2b3324;
+            --btn-gray: #e0e0e0;
+            --btn-dark: #b0b0b0;
+            --btn-orange: #ff9f0a;
+            --shadow: #888;
+        }
+
+        * {
+            box-sizing: border-box;
+            font-family: 'Courier New', Courier, monospace;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        /* Container Principal (Responsivo) */
+        .calculator {
+            background-color: var(--calc-body);
+            width: 90%;
+            max-width: 360px;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 10px 10px 0px #1a252f, inset -4px -4px 0px var(--shadow);
+            border: 4px solid #999;
+        }
+
+        /* Tela LCD */
+        #display {
+            background-color: var(--screen-bg);
+            color: var(--screen-text);
+            width: 100%;
+            height: 70px;
+            text-align: right;
+            padding: 15px;
+            font-size: 2rem;
+            border: 4px inset #666;
+            margin-bottom: 20px;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+        }
+
+        /* Grade de Botões */
+        .buttons {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 12px;
+        }
+
+        button {
+            padding: 18px;
+            font-size: 1.4rem;
+            font-weight: bold;
+            border: 2px solid #999;
+            border-radius: 5px;
+            cursor: pointer;
+            background-color: var(--btn-gray);
+            box-shadow: 3px 3px 0px #888;
+            transition: all 0.1s;
+        }
+
+        button:active {
+            box-shadow: 1px 1px 0px #888;
+            transform: translate(2px, 2px);
+        }
+
+        .btn-op { background-color: var(--btn-dark); }
+        .btn-equal { 
+            background-color: var(--btn-orange); 
+            grid-column: span 2; 
+        }
+        .btn-clear { 
+            background-color: #ff5e5e; 
+            color: white;
+            grid-column: span 2;
+        }
+
+    </style>
+</head>
+<body>
+
+    <div class="calculator">
+        <div id="display">0</div>
+        <div class="buttons">
+            <button class="btn-clear" onclick="clearDisplay()">CLEAR</button>
+            <button class="btn-op" onclick="appendToDisplay('/')">÷</button>
+            <button class="btn-op" onclick="appendToDisplay('*')">×</button>
+
+            <button onclick="appendToDisplay('7')">7</button>
+            <button onclick="appendToDisplay('8')">8</button>
+            <button onclick="appendToDisplay('9')">9</button>
+            <button class="btn-op" onclick="appendToDisplay('-')">-</button>
+
+            <button onclick="appendToDisplay('4')">4</button>
+            <button onclick="appendToDisplay('5')">5</button>
+            <button onclick="appendToDisplay('6')">6</button>
+            <button class="btn-op" onclick="appendToDisplay('+')">+</button>
+
+            <button onclick="appendToDisplay('1')">1</button>
+            <button onclick="appendToDisplay('2')">2</button>
+            <button onclick="appendToDisplay('3')">3</button>
+            <button onclick="calculate()">=</button>
+
+            <button onclick="appendToDisplay('0')">0</button>
+            <button onclick="appendToDisplay('.')">.</button>
+            <button class="btn-equal" onclick="calculate()">TOTAL</button>
+        </div>
+    </div>
+
+    <script>
+        const display = document.getElementById('display');
+
+        function appendToDisplay(input) {
+            if (display.innerText === '0' || display.innerText === 'Erro') {
+                display.innerText = input;
+            } else {
+                display.innerText += input;
+            }
+        }
+
+        function clearDisplay() {
+            display.innerText = '0';
+        }
+
+        function calculate() {
+            try {
+                // eval é prático para calculadoras simples, mas use com cautela em apps reais
+                display.innerText = eval(display.innerText);
+            } catch (error) {
+                display.innerText = 'Erro';
+            }
+        }
+    </script>
+</body>
+</html>
